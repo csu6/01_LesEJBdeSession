@@ -1,0 +1,58 @@
+package com.etudiant.m2i;
+
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+
+import com.etudiant.formation.CalculetteRemote;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// Créer un objet de classe InitialContext qui nous servira pour trouver
+		// l'EJB distant
+		InitialContext ctx = null;
+		
+		try {
+			// créer le contexte
+			ctx = new InitialContext();
+			
+			// Chercher le bean à l'aide de la méthode lookup():
+			// Cette méthode retourne une référence sur un proxy
+			// Proxy: Objet local qui nous l'impression
+			// que le bean distant se trouve dans mon application (on travaille avec
+			// le proxy comme si c'était le bean)
+			// Le rôle du proxy: cacher les détails des échange des données
+			// entre notre application et le bean distant.
+			// Le retour de lookup() est un objet non typé:
+			Object obj = ctx.lookup(com.etudiant.formation.CalculetteRemote.class.getName());
+						
+			// Apres avoir obtenu la référence retournée par lookup(), je dois utiliser
+			// la méthode narrow() pour reconstituer l'objet.
+			// La reconstitution retourne un objet non typé
+			// J'utilise un transtypage pour le transformer en un objet de type (CalculetteRemote)
+			CalculetteRemote proxy = (CalculetteRemote)PortableRemoteObject.narrow(obj, CalculetteRemote.class);
+			
+			// Désormais, je peux utiliser le proxy comme si c'était le bean même
+			String op = "+"; 
+			double d1 = 1;
+			double d2 = 2;
+			double resultat = proxy.calculer(op, d1, d2);
+			
+			op = "/"; 
+			d2 = 0;
+			try  {
+				resultat = proxy.calculer(op, d1, d2);
+			} catch(Exception ex) {
+			}
+			
+			System.out.println(d1 + " " + op + " " + d2 + " = " + resultat);
+			
+		} catch(Exception ex) {
+			System.out.println(
+					"Type exception: " + ex.getClass().getName()
+					+ "\nMessage exception: " + ex.getMessage()
+					);
+		}
+	}
+
+}

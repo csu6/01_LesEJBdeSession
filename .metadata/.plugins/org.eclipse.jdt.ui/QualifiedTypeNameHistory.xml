@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+<fullyQualifiedTypeName name="java.io.FileWriter"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="javax.naming.InitialContext"/>
+<fullyQualifiedTypeName name="com.etudiant.formation.Calculette"/>
+<fullyQualifiedTypeName name="com.etudiant.formation.CalculetteRemote"/>
+<fullyQualifiedTypeName name="javax.rmi.PortableRemoteObject"/>
+</qualifiedTypeNameHistroy>

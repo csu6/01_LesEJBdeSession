@@ -1,0 +1,13 @@
+/*
+ * Cette interface sera utilisée pour exporter des méthodes vers des applications
+ * se trouvant à l'extérieur du conteneur EJB.
+ * 
+ */
+package com.etudiant.formation;
+
+import javax.ejb.Local;
+
+@Local
+public interface CalculetteLocal {
+
+}

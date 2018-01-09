@@ -1,0 +1,108 @@
+package com.etudiant.formation;
+
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+
+// Bean de session sans état (stateless)
+/**
+ * Session Bean implementation class Calculette
+ */
+@Stateless
+@LocalBean
+public class Calculette implements CalculetteRemote/*, CalculetteLocal*/ {
+	
+	private double resultatPrecedent = Double.NaN;
+
+    /**
+     * Default constructor. 
+     */
+    public Calculette() {
+    	ecrire_log("Moment de creation EJB");
+    }
+    
+    public double calculer(String operateur, double df1, double df2) throws Exception {
+    	ecrire_log("Operation: " + df1 + " " + operateur + " " + df2);
+    	
+    	double resultat;
+    	
+    	if( operateur.equals("+")) {
+    		resultat = df1 + df2;
+    	} else if( operateur.equals("-")) {
+    		resultat = df1 - df2;
+    	} else if( operateur.equals("*")) {
+    		resultat = df1 * df2;
+    	}else if( operateur.equals("/")) {
+    		double res = df1 / df2;
+    		if(
+    				res == Double.NEGATIVE_INFINITY
+    				||
+    				res == Double.POSITIVE_INFINITY
+    			) {
+    			ecrire_log("Division par zéro");
+    			throw new Exception("Division par zéro");
+    		}
+    		resultat = (df1 / df2);
+    	} else {
+			ecrire_log("Operateur inconnu: " + operateur);
+    		throw new Exception("Operateur inconnu: " + operateur);
+    	}
+    	
+    	return resultat;
+    }
+    
+//    public static void ecrire_log(String message) {
+//    	// Créer un bjet de formatage de date de SDF (SimpleDateFormat)
+//    	
+//    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//    	
+//    	String fichier_journalisation = "C:\\journaux\\journalCalculette.log";
+//
+//    	try {
+//        	// ouvrir un stream (un flux) vers le fichier de journalisation
+//			FileWriter fw = new FileWriter(fichier_journalisation, true);
+//			fw.append(sdf.format(new Date() + ": " + message + System.getProperty("line.separator")));
+//			fw.close();
+//		} catch (IOException ex) {
+//			System.out.println(
+//						"\n\n"
+//						+ "Une exception a été rencontrée:\n " 
+//						+ "Source: Calculette \n" 
+//						+ "Message: "
+//						+ ex.getMessage()
+//						+"\n\n"
+//					);
+//		}
+//    }
+    
+    private static void ecrire_log(String message)
+    {
+        //créer un objet de formatage de date de type sdf(SimpledateFormat)            
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        
+        String fic_journalisation = "C:\\journaux\\journalCalculette.log";
+        
+        try             
+        {
+            //ouvrir un stream(un flux) vers le fichier de journalisation
+            FileWriter fw = new FileWriter(fic_journalisation , true);
+            
+            
+            fw.append(sdf.format(new Date()) + 
+            ": " +
+            message + System.getProperty("line.separator"));
+            fw.close();
+            
+        }            
+        catch(IOException ex)
+        {
+            System.out.println("Une Exception a été rencontrée : " +
+                    "source : Calculette\nMessage:" + 
+                     ex.getMessage());
+        }
+    
+    }
+}

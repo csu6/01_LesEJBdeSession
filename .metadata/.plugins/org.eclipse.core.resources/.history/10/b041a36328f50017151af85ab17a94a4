@@ -1,0 +1,8 @@
+package com.etudiant.formation;
+
+import javax.ejb.Remote;
+
+@Remote
+public interface CalculetteRemote {
+
+}
